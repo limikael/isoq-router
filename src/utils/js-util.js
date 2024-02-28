@@ -22,3 +22,15 @@ export function urlMatchPath(url, path) {
 
 	return true;	
 }
+
+export function makeUrlUnique(url) {
+	let u=new URL(url);
+	u.searchParams.set("__random",crypto.randomUUID());
+	return u.toString();
+}
+
+export function makeUrlCanonical(url) {
+	let u=new URL(url);
+	u.searchParams.delete("__random");
+	return u.toString();
+}

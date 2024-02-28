@@ -1,2 +1,3 @@
-export {Router, Route, useLoaderData, useRouterUrl} from "../router/router.jsx";
-export {Link, useLocation, useRedirect} from "../router/location.jsx";
+export {Route, useLoaderData} from "../router/Route.jsx";
+export {useLocation, useRedirect} from "../router/Router.jsx";
+export {Link} from "../router/Link.jsx";

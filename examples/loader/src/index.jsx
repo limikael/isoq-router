@@ -1,4 +1,4 @@
-import {Router, Route, Link, useLoaderData, useRouterUrl} from "isoq-router";
+import {Route, Link, useLoaderData, useLocation} from "isoq-router";
 import {useRef, useEffect} from "react";
 import {useIsoMemo} from "isoq";
 
@@ -29,12 +29,14 @@ function Page() {
 }
 
 Page.loader=async (url)=>{
+    console.log("loading: "+url);
     await new Promise(r=>setTimeout(r,1000));
     return "some data: "+url;
 }
 
 function OtherPage() {
-    let url=useRouterUrl();
+    let url=useLocation();
+    console.log("other page url: "+url);
 
     return (
         <div>
@@ -54,17 +56,15 @@ export default function() {
             &nbsp;|&nbsp;<Link href="/otherpage/1">Other 1</Link>
             &nbsp;|&nbsp;<Link href="/otherpage/2">Other 2</Link>
 		</div>
-		<Router>
-			<Route path="/"><Home/></Route>
-			<Route path="/about">
-                <About/>
-            </Route>
-			<Route path="/page/*" loader={Page.loader}>
-                <Page/>
-            </Route>
-            <Route path="/otherpage/*">
-                <OtherPage/>
-            </Route>
-		</Router>
+		<Route path="/"><Home/></Route>
+		<Route path="/about">
+            <About/>
+        </Route>
+		<Route path="/page/*" loader={Page.loader}>
+            <Page/>
+        </Route>
+        <Route path="/otherpage/*">
+            <OtherPage/>
+        </Route>
 	</>);
 }
