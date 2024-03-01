@@ -2,11 +2,12 @@
   "name": "loader",
   "version": "1.0.0",
   "license": "MIT",
+  "type": "module",
   "scripts": {
-    "start": "isoq --sourcemap src/index.jsx && serve-fetch node_modules/__ISOQ_MIDDLEWARE/isoq-request-handler.js"
+    "start": "isoq --sourcemap src/index.jsx --out .target/handler.js && serve-fetch .target/handler.js"
   },
   "dependencies": {
-    "isoq": "^1.0.18",
+    "isoq": "^1.1.0",
     "isoq-router": "link:../..",
     "serve-fetch": "^1.0.1"
   }
