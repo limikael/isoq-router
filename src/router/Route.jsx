@@ -30,7 +30,7 @@ function LoaderDataProvider({loader, children}) {
 	)
 }
 
-export function Route({path, children, loader}) {
+export function Route({path, children, loader, class: className, style}) {
 	let router=useRouter();
 	useEventUpdate(router,"change");
 
@@ -49,7 +49,9 @@ export function Route({path, children, loader}) {
 		ret.push(
 			<IsoSuspense
 					key={router.currentUrl}
-					suspend={false}>
+					suspend={false}
+					class={className}
+					style={style}>
 				<LocationContext.Provider value={router.currentUrl}>
 					{content}
 				</LocationContext.Provider>
@@ -62,7 +64,9 @@ export function Route({path, children, loader}) {
 		ret.push(
 			<IsoSuspense 
 					key={router.pendingUrl}
-					onComplete={()=>router.commit()}>
+					onComplete={()=>router.commit()}
+					class={className}
+					style={style}>
 				<LocationContext.Provider value={router.pendingUrl}>
 					{content}
 				</LocationContext.Provider>
