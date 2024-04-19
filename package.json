@@ -1,11 +1,11 @@
 {
   "name": "isoq-router",
-  "version": "1.0.7",
+  "version": "1.0.9",
   "scripts": {},
   "license": "MIT",
   "main": "src/main/main.jsx",
   "type": "module",
   "dependencies": {
-    "isoq": "^1.1.5"
+    "isoq": "^1.1.8"
   }
 }
