@@ -2,7 +2,8 @@ import {LocationContext, useRouter, useLocation} from "./Router.jsx";
 import {createContext, useContext} from "react";
 import {useEventUpdate} from "../utils/react-util.jsx";
 import {urlMatchPath} from "../utils/js-util.js";
-import {IsoSuspense, useIsoMemo} from "isoq";
+import {IsoSuspense, useIsoMemo, useIsoContext} from "isoq";
+import urlJoin from "url-join";
 
 const LoaderDataContext=createContext();
 
@@ -32,6 +33,7 @@ function LoaderDataProvider({loader, children}) {
 
 export function Route({path, children, loader, class: className, style}) {
 	let router=useRouter();
+	let iso=useIsoContext();
 	useEventUpdate(router,"change");
 
 	//console.log("current: "+router.currentUrl+" pending: "+router.pendingUrl);
@@ -45,7 +47,10 @@ export function Route({path, children, loader, class: className, style}) {
 		);
 
 	let ret=[];
-	if (urlMatchPath(router.currentUrl,path)) {
+	let appLocationPath=urlJoin(iso.appPathname,path);
+	//console.log("matching against: "+appLocationPath);
+
+	if (urlMatchPath(router.currentUrl,appLocationPath)) {
 		ret.push(
 			<IsoSuspense
 					key={router.currentUrl}
@@ -60,7 +65,7 @@ export function Route({path, children, loader, class: className, style}) {
 	}
 
 	if (router.isLoading() && 
-			urlMatchPath(router.pendingUrl,path)) {
+			urlMatchPath(router.pendingUrl,appLocationPath)) {
 		ret.push(
 			<IsoSuspense 
 					key={router.pendingUrl}
