@@ -1,6 +1,6 @@
 {
   "name": "isoq-router",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "scripts": {},
   "license": "MIT",
   "main": "src/main/main.jsx",
