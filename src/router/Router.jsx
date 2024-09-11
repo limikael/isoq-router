@@ -15,8 +15,8 @@ class Router extends EventTarget {
 		this.pendingUrl=String(iso.getUrl());
 
 		if (!this.iso.isSsr()) {
-			window.addEventListener("popstate",(e)=>{
-				this.setPendingUrl(String(window.location));
+			this.iso.getWindow().addEventListener("popstate",(e)=>{
+				this.setPendingUrl(String(this.iso.getWindow().location));
 			});
 		}
 	}
@@ -41,9 +41,10 @@ class Router extends EventTarget {
 		this.dispatchEvent(new Event("change"));
 
 		if (!this.iso.isSsr()) {
-			if (window.location!=makeUrlCanonical(this.currentUrl)) {
-				history.scrollRestoration="manual";
-				history.pushState(null,null,makeUrlCanonical(this.currentUrl));
+			let w=this.iso.getWindow();
+			if (w.location!=makeUrlCanonical(this.currentUrl)) {
+				w.history.scrollRestoration="manual";
+				w.history.pushState(null,null,makeUrlCanonical(this.currentUrl));
 			}
 
 			setTimeout(()=>this.postNavScroll(),0);
@@ -56,7 +57,7 @@ class Router extends EventTarget {
 
 		if (u.hash) {
 			let hash=u.hash.replace("#","");
-			let els=window.document.getElementsByName(hash);
+			let els=this.iso.getWindow().document.getElementsByName(hash);
 			if (els.length)
 				el=els[0];
 		}
@@ -67,7 +68,7 @@ class Router extends EventTarget {
 			});
 
 		else
-			window.scrollTo(0,0);
+			this.iso.getWindow().scrollTo(0,0);
 	}
 }
 
@@ -100,7 +101,7 @@ export function useRedirect() {
 	}
 
 	return (url, options={})=>{
-		let targetUrl=String(new URL(url,window.location));
+		let targetUrl=String(new URL(url,iso.getWindow().location));
 		if (options.forceReload)
 			targetUrl=makeUrlUnique(targetUrl);
 

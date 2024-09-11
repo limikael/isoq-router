@@ -48,7 +48,9 @@ export function Route({path, children, loader, class: className, style}) {
 
 	let ret=[];
 	let appLocationPath=urlJoin(iso.appPathname,path);
-	//console.log("matching against: "+appLocationPath);
+	//console.log("matching: "+path+" against: "+appLocationPath);
+
+	//console.log("current: "+router.currentUrl+" declared: "+appLocationPath);
 
 	if (urlMatchPath(router.currentUrl,appLocationPath)) {
 		ret.push(
